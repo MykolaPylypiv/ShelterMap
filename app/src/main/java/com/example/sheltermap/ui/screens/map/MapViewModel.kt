@@ -1,10 +1,12 @@
 package com.example.sheltermap.ui.screens.map
 
+import androidx.compose.ui.focus.FocusRequester
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sheltermap.data.Shelter
 import com.example.sheltermap.data.sh
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
@@ -90,6 +92,10 @@ class MapViewModel : ViewModel() {
     val crimea = preparation(crimeaRepublic)
     val kyivTown = preparation(kyivCity)
     val sevastopolTown = preparation(sevastopolCity)
+
+    lateinit var map: GoogleMap
+
+    val focusRequester = FocusRequester()
 
     private fun preparation(oblastString: String): ArrayList<LatLng> {
         val listOblast = oblastString.split("[", "]", ",").toMutableList()
