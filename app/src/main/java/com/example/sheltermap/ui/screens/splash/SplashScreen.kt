@@ -51,7 +51,7 @@ fun SplashScreen(
         Spacer(modifier = Modifier.weight(1F))
 
         Image(
-            painter = painterResource(R.mipmap.sm_icon_v3),
+            painter = painterResource(R.mipmap.sm_icon),
             contentDescription = "Icon",
             modifier = Modifier.alpha(infiniteAlpha)
         )
