@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShelterMap"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC45TR9ne8cC3fAHERcr61OvQM0lSKv1Nk" />
         <activity
             android:name=".core.MainActivity"
             android:exported="true"
