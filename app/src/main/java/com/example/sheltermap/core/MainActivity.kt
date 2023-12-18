@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.core.content.ContextCompat
 import com.example.sheltermap.ui.screens.ApplicationScreen
+import com.example.sheltermap.ui.screens.splash.SplashScreen
 import com.example.sheltermap.ui.theme.ShelterMapTheme
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -58,10 +59,16 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    ApplicationScreen()
+                    if (state.value == null) {
+                        SplashScreen(
+                            fusedLocationProviderClient
+                        )
+                    } else {
+                        ApplicationScreen()
+                    }
                 }
             }
         }
-    }
 
+    }
 }
