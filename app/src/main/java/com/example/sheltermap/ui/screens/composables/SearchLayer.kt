@@ -6,7 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -95,5 +97,13 @@ fun SearchLayer(viewModel: MapViewModel) {
                 .onFocusChanged {
                     visibleLazy = !focusRequester.freeFocus()
                 })
+
+        LazyColumn(
+            modifier = Modifier
+                .height(if (visibleLazy) 0.dp else 600.dp)
+                .fillMaxWidth()
+        ) {
+
+        }
     }
 }
