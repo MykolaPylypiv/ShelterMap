@@ -1,7 +1,12 @@
 package com.example.sheltermap.ui.screens.map
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.sheltermap.data.Shelter
+import com.example.sheltermap.data.sh
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.launch
 
 class MapViewModel : ViewModel() {
     private val khersonOblast: String =
@@ -101,5 +106,38 @@ class MapViewModel : ViewModel() {
         }
 
         return oblast
+    }
+
+    fun click(position: LatLng) {
+        viewModelScope.launch {
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    position, 15f
+                )
+            )
+        }
+    }
+
+    fun find(searchAddress: String): List<Shelter> {
+        val newList: MutableList<Shelter> = mutableListOf()
+
+        sh.map { shelter ->
+            var address = shelter.address.replace("?", "і")
+            if (address.contains(".")) {
+                address = address.substring(
+                    0, address.indexOf(".") - 1
+                ) + " " + address[address.indexOf(".") - 1].uppercase() + address.substring(
+                    address.indexOf("."), address.length
+                )
+            }
+
+            if (address.lowercase().contains(searchAddress.lowercase())) {
+                newList.add(
+                    Shelter(address = address, shelter.latLng)
+                )
+            }
+        }
+
+        return newList
     }
 }
