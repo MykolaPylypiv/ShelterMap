@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.sheltermap.ui.screens.composables.SearchLayer
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,6 +24,8 @@ fun MapScreen(viewModel: MapViewModel) {
 
 @Composable
 fun MapBody(viewModel: MapViewModel) {
-    Box(modifier = Modifier.fillMaxSize()) {}
+    Box(modifier = Modifier.fillMaxSize()) {
+        SearchLayer(viewModel = viewModel)
+    }
 }
 
