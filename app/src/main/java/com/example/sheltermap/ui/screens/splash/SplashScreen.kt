@@ -1,6 +1,7 @@
 package com.example.sheltermap.ui.screens.splash
 
 import android.annotation.SuppressLint
+import android.location.Location
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -11,11 +12,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,17 +31,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.sheltermap.R
-import com.example.sheltermap.core.state
 import com.google.android.gms.location.FusedLocationProviderClient
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun SplashScreen(
-    fusedLocationProviderClient: FusedLocationProviderClient) {
+    fusedLocationProviderClient: FusedLocationProviderClient, state: MutableState<Location?>
+) {
     val infiniteTransition = rememberInfiniteTransition(label = "")
 
     val infiniteAlpha by infiniteTransition.animateFloat(
-        initialValue = 0.6f, targetValue = 1f, animationSpec = infiniteRepeatable(
+        initialValue = 0.3f, targetValue = 1f, animationSpec = infiniteRepeatable(
             animation = tween(3000, easing = LinearEasing), repeatMode = RepeatMode.Reverse
         ), label = ""
     )
@@ -46,20 +50,19 @@ fun SplashScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(Color.Black)
+        modifier = Modifier.background(Color(0xFF1a1410)).fillMaxSize().alpha(infiniteAlpha)
     ) {
         Spacer(modifier = Modifier.weight(1F))
 
         Image(
-            painter = painterResource(R.mipmap.sm_icon),
+            painter = painterResource(R.mipmap.icon_second),
             contentDescription = "Icon",
-            modifier = Modifier.alpha(infiniteAlpha)
         )
 
         Spacer(modifier = Modifier.height(36.dp))
 
         if (loading) {
-            getDeviceLocation(fusedLocationProviderClient)
+            getDeviceLocation(fusedLocationProviderClient, state)
         }
 
         Spacer(modifier = Modifier.height(48.dp))
@@ -80,7 +83,7 @@ fun SplashScreen(
 
 @SuppressLint("MissingPermission")
 fun getDeviceLocation(
-    fusedLocationProviderClient: FusedLocationProviderClient
+    fusedLocationProviderClient: FusedLocationProviderClient, state: MutableState<Location?>
 ) {
     try {
         val locationResult = fusedLocationProviderClient.lastLocation
