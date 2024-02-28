@@ -45,7 +45,7 @@ fun SearchLayer(viewModel: MapViewModel) {
 
     Column(
         modifier = Modifier
-            .background(if (visibleLazy) MaterialTheme.colorScheme.primary.copy(0.8f) else MaterialTheme.colorScheme.primary.copy(0.95f))
+            .background(if (visibleLazy) Color.Transparent else Color(0xFF202c38).copy(0.95f))
             .animateContentSize(tween())
     ) {
         val focusRequester = remember { FocusRequester() }
@@ -60,11 +60,12 @@ fun SearchLayer(viewModel: MapViewModel) {
             textStyle = MaterialTheme.typography.bodyLarge,
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent,
-                focusedIndicatorColor = Color.LightGray,
-                unfocusedIndicatorColor = Color.LightGray,
-                disabledIndicatorColor = Color.LightGray
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                containerColor = if (visibleLazy) Color(0xFF202c38).copy(0.9f) else Color(0xFF202c38).copy(0.95f),
+                focusedBorderColor = Color(0xffE37938),
+                unfocusedBorderColor = Color(0xffE37938).copy(0.8f),
+                unfocusedLabelColor = Color(0xffE37938),
+                textColor = Color.White
             ),
             placeholder = {
                 Text(text = "Пошук",
@@ -101,7 +102,7 @@ fun SearchLayer(viewModel: MapViewModel) {
 
         LazyColumn(
             modifier = Modifier
-                .height(if (visibleLazy) 0.dp else 600.dp)
+                .height(if (visibleLazy) 0.dp else 900.dp)
                 .fillMaxWidth()
         ) {
             items(items = viewModel.find(value)) { shelter ->
